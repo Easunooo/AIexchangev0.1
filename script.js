@@ -1,13 +1,12 @@
 const planScenarios = {
   travel: {
     label: "旅游换汇计划",
-    intro: "已进入旅游换汇计划。我会从底部逐轮确认国家、金额、DDL，再补充大致出行日期。",
-    completeText: "旅游换汇基础信息已确认，下一步可以继续生成旅游场景建议。",
+    title: "先确认国家、金额、DDL，再补充大致出行日期",
     steps: [
       {
         key: "country",
         label: "国家",
-        prompt: "你准备去哪个国家或地区？",
+        prompt: "你的旅游目的地是哪个国家或地区？",
         options: ["日本", "泰国", "新加坡", "欧洲"],
         otherPlaceholder: "填写其他目的地"
       },
@@ -36,8 +35,7 @@ const planScenarios = {
   },
   study: {
     label: "留学换汇计划",
-    intro: "已进入留学换汇计划。我会逐轮确认留学国家、金额和最早用汇 DDL。",
-    completeText: "留学换汇基础信息已确认，下一步可以继续生成留学场景建议。",
+    title: "先确认留学国家、金额和首个关键 DDL",
     steps: [
       {
         key: "country",
@@ -64,8 +62,7 @@ const planScenarios = {
   },
   invest: {
     label: "投资换汇计划",
-    intro: "已进入投资换汇计划。我会先确认目标国家、金额和你的换汇 DDL。",
-    completeText: "投资换汇基础信息已确认，下一步可以继续生成投资场景建议。",
+    title: "先确认目标国家、金额和你的换汇 DDL",
     steps: [
       {
         key: "country",
@@ -92,8 +89,7 @@ const planScenarios = {
   },
   remit: {
     label: "跨境汇款计划",
-    intro: "已进入跨境汇款计划。我会逐轮确认收款国家、金额和到账 DDL。",
-    completeText: "跨境汇款基础信息已确认，下一步可以继续生成汇款场景建议。",
+    title: "先确认收款国家、金额和到账 DDL",
     steps: [
       {
         key: "country",
@@ -129,51 +125,37 @@ const plannerState = {
 const planTabs = document.querySelectorAll(".plan-tab");
 const questionButtons = document.querySelectorAll(".question-item");
 const planFlow = document.getElementById("planFlow");
-const plannerThread = document.getElementById("plannerThread");
+const planLabel = document.getElementById("planLabel");
+const planTitle = document.getElementById("planTitle");
+const plannerStepBadge = document.getElementById("plannerStepBadge");
+const plannerAnswers = document.getElementById("plannerAnswers");
+const plannerQuestion = document.getElementById("plannerQuestion");
 const plannerChoices = document.getElementById("plannerChoices");
 const plannerChoicesLabel = document.getElementById("plannerChoicesLabel");
 const planOptions = document.getElementById("planOptions");
 const planOtherInput = document.getElementById("planOtherInput");
 const planOtherSubmit = document.getElementById("planOtherSubmit");
 const planComplete = document.getElementById("planComplete");
-const questionPreview = document.getElementById("questionPreview");
-const questionPreviewText = questionPreview.querySelector("p");
+const questionPreviewText = document.getElementById("questionPreview").querySelector("p");
 const messageInput = document.getElementById("messageInput");
 
 function getCurrentPlan() {
   return plannerState.planKey ? planScenarios[plannerState.planKey] : null;
 }
 
-function createBubble(role, text) {
-  const bubble = document.createElement("div");
-  const content = document.createElement("p");
+function renderAnswers(plan) {
+  plannerAnswers.innerHTML = "";
 
-  bubble.className = `thread-bubble ${role}`;
-  content.textContent = text;
-  bubble.appendChild(content);
+  const answerEntries = plan.steps.filter((step) => plannerState.answers[step.key]);
 
-  return bubble;
-}
+  plannerAnswers.classList.toggle("is-empty", answerEntries.length === 0);
 
-function renderThread(plan, currentStep) {
-  plannerThread.innerHTML = "";
-  plannerThread.appendChild(createBubble("user", `我想创建${plan.label}`));
-  plannerThread.appendChild(createBubble("assistant", plan.intro));
-
-  plan.steps.forEach((step, index) => {
-    if (index >= plannerState.stepIndex) {
-      return;
-    }
-
-    plannerThread.appendChild(createBubble("assistant", step.prompt));
-    plannerThread.appendChild(createBubble("user", plannerState.answers[step.key]));
+  answerEntries.forEach((step) => {
+    const chip = document.createElement("span");
+    chip.className = "planner-answer-chip";
+    chip.textContent = `${step.label} · ${plannerState.answers[step.key]}`;
+    plannerAnswers.appendChild(chip);
   });
-
-  if (currentStep) {
-    plannerThread.appendChild(
-      createBubble("assistant", `第 ${plannerState.stepIndex + 1} 轮：${currentStep.prompt}`)
-    );
-  }
 }
 
 function renderOptions(step) {
@@ -202,19 +184,24 @@ function renderPlanner() {
 
   planFlow.classList.remove("is-hidden");
   planFlow.setAttribute("aria-hidden", "false");
-  questionPreview.classList.add("is-hidden");
-  renderThread(plan, currentStep);
+  planLabel.textContent = plan.label;
+  planTitle.textContent = plan.title;
+  renderAnswers(plan);
 
   if (currentStep) {
+    plannerStepBadge.textContent = `第 ${plannerState.stepIndex + 1} 轮`;
+    plannerQuestion.textContent = currentStep.prompt;
     plannerChoices.classList.remove("is-hidden");
     planComplete.classList.add("is-hidden");
-    plannerChoicesLabel.textContent = `${plan.label} · 第 ${plannerState.stepIndex + 1} 轮`;
+    plannerChoicesLabel.textContent = "请选择一个选项，或填写其他";
     planOtherInput.value = "";
     planOtherInput.placeholder = currentStep.otherPlaceholder;
     renderOptions(currentStep);
     return;
   }
 
+  plannerStepBadge.textContent = "已确认";
+  plannerQuestion.textContent = "基础信息已确认，点击下方按钮生成你的换汇计划。";
   plannerChoices.classList.add("is-hidden");
   planComplete.classList.remove("is-hidden");
 }
@@ -275,15 +262,6 @@ questionButtons.forEach((button) => {
       item.classList.toggle("is-selected", item === button);
     });
 
-    plannerState.planKey = null;
-    plannerState.stepIndex = 0;
-    plannerState.answers = {};
-    planTabs.forEach((tab) => {
-      tab.classList.remove("is-active");
-    });
-    planFlow.classList.add("is-hidden");
-    planFlow.setAttribute("aria-hidden", "true");
-    questionPreview.classList.remove("is-hidden");
     questionPreviewText.textContent = question;
     messageInput.value = question;
   });

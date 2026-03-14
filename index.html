@@ -57,6 +57,36 @@
             <span class="plan-tab-label">跨境汇款</span>
           </button>
         </div>
+
+        <div class="planner-panel is-hidden" id="planFlow" aria-hidden="true">
+          <div class="planner-panel-head">
+            <div>
+              <p class="planner-panel-label" id="planLabel">旅游换汇计划</p>
+              <h4 class="planner-panel-title" id="planTitle">先确认 3 个核心信息，再生成换汇计划</h4>
+            </div>
+            <span class="planner-step-badge" id="plannerStepBadge">第 1 轮</span>
+          </div>
+
+          <div class="planner-answer-strip" id="plannerAnswers"></div>
+
+          <div class="planner-question-card">
+            <p class="planner-question-tag">当前问题</p>
+            <p class="planner-question" id="plannerQuestion">请选择一个跨境场景开始。</p>
+          </div>
+
+          <div class="planner-choices" id="plannerChoices">
+            <p class="planner-choices-label" id="plannerChoicesLabel">请选择一个选项，或填写其他</p>
+            <div class="choice-grid" id="planOptions"></div>
+            <div class="other-entry">
+              <input class="other-input" id="planOtherInput" type="text" placeholder="填写其他信息">
+              <button class="secondary-button" id="planOtherSubmit" type="button">确定</button>
+            </div>
+          </div>
+
+          <div class="plan-complete is-hidden" id="planComplete">
+            <button class="primary-button" type="button">生成我的换汇计划</button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -102,20 +132,6 @@
       </div>
       <div class="message user" id="questionPreview">
         <p>美元兑换人民币汇率</p>
-      </div>
-      <div class="planner-inline is-hidden" id="planFlow" aria-hidden="true">
-        <div class="planner-thread" id="plannerThread"></div>
-        <div class="planner-choices" id="plannerChoices">
-          <p class="planner-choices-label" id="plannerChoicesLabel">选择一个选项，或填写其他</p>
-          <div class="choice-grid" id="planOptions"></div>
-          <div class="other-entry">
-            <input class="other-input" id="planOtherInput" type="text" placeholder="填写其他信息">
-            <button class="secondary-button" id="planOtherSubmit" type="button">确定</button>
-          </div>
-        </div>
-        <div class="plan-complete is-hidden" id="planComplete">
-          <button class="primary-button" type="button">生成我的换汇计划</button>
-        </div>
       </div>
     </section>
 
