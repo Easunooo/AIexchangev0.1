@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>腾讯AI汇率助手 UI Demo</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="page-bg"></div>
+  <main class="phone-frame">
+    <header class="topbar">
+      <button class="icon-button" type="button" aria-label="返回">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 5L8 12L15 19" />
+        </svg>
+      </button>
+      <div class="topbar-title">
+        <h1>AI汇率助手</h1>
+      </div>
+      <button class="capsule-button" type="button" aria-label="更多">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <section class="welcome-card glass-card">
+      <p class="eyebrow">跨境金融助手</p>
+      <h2>Hi，我是腾讯 AI 汇率查询助手</h2>
+      <p class="welcome-copy">
+        专注汇率问答与换汇规划。你可以直接查询实时汇率，也可以快速创建旅游、留学、投资或跨境汇款的换汇计划。
+      </p>
+    </section>
+
+    <section class="planner-banner">
+      <div class="planner-card glass-card">
+        <div class="planner-heading">
+          <h3>创建换汇计划</h3>
+        </div>
+
+        <div class="plan-tabs" id="planTabs">
+          <button class="plan-tab" type="button" data-plan="travel">
+            <span class="plan-tab-top">出行前</span>
+            <span class="plan-tab-label">旅游</span>
+          </button>
+          <button class="plan-tab" type="button" data-plan="study">
+            <span class="plan-tab-top">学费前</span>
+            <span class="plan-tab-label">留学</span>
+          </button>
+          <button class="plan-tab" type="button" data-plan="invest">
+            <span class="plan-tab-top">配置前</span>
+            <span class="plan-tab-label">投资</span>
+          </button>
+          <button class="plan-tab" type="button" data-plan="remit">
+            <span class="plan-tab-top">到账前</span>
+            <span class="plan-tab-label">跨境汇款</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="ask-card glass-card">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">猜你想问</p>
+          <h3>热门汇率问题可一键提问</h3>
+        </div>
+      </div>
+
+      <div class="question-list" id="questionList">
+        <button class="question-item" type="button" data-question="美元兑换人民币汇率">
+          <span>美元兑换人民币汇率</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M9 6L15 12L9 18" />
+          </svg>
+        </button>
+        <button class="question-item" type="button" data-question="现在换日元适合分批提现吗？">
+          <span>现在换日元适合分批提现吗？</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M9 6L15 12L9 18" />
+          </svg>
+        </button>
+        <button class="question-item" type="button" data-question="汇率波动下如何汇款到美国？">
+          <span>汇率波动下如何汇款到美国？</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M9 6L15 12L9 18" />
+          </svg>
+        </button>
+        <button class="question-item" type="button" data-question="港币和美元哪个更适合近期持有？">
+          <span>港币和美元哪个更适合近期持有？</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M9 6L15 12L9 18" />
+          </svg>
+        </button>
+      </div>
+    </section>
+
+    <section class="preview-chat">
+      <div class="message assistant glass-card">
+        <p>我可以帮你查询汇率、规划换汇时点，或者根据跨境场景给出换汇建议。</p>
+      </div>
+      <div class="message user" id="questionPreview">
+        <p>美元兑换人民币汇率</p>
+      </div>
+      <div class="planner-inline is-hidden" id="planFlow" aria-hidden="true">
+        <div class="planner-thread" id="plannerThread"></div>
+        <div class="planner-choices" id="plannerChoices">
+          <p class="planner-choices-label" id="plannerChoicesLabel">选择一个选项，或填写其他</p>
+          <div class="choice-grid" id="planOptions"></div>
+          <div class="other-entry">
+            <input class="other-input" id="planOtherInput" type="text" placeholder="填写其他信息">
+            <button class="secondary-button" id="planOtherSubmit" type="button">确定</button>
+          </div>
+        </div>
+        <div class="plan-complete is-hidden" id="planComplete">
+          <button class="primary-button" type="button">生成我的换汇计划</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="composer-panel">
+      <div class="quick-tools">
+        <button class="tool-chip" type="button">深度思考</button>
+        <button class="tool-chip" type="button">拍照分析汇率</button>
+      </div>
+
+      <div class="composer">
+        <button class="voice-button" type="button" aria-label="语音输入">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 15a3 3 0 0 0 3-3V7a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Z" />
+            <path d="M18 11a6 6 0 0 1-12 0" />
+            <path d="M12 17v3" />
+            <path d="M9 20h6" />
+          </svg>
+        </button>
+        <label class="input-shell" aria-label="文字输入">
+          <input id="messageInput" type="text" placeholder="请输入汇率问题或换汇需求">
+        </label>
+      </div>
+
+      <p class="disclaimer">内容由 AI 生成，仅供参考</p>
+    </section>
+  </main>
+
+  <script src="./script.js"></script>
+</body>
+</html>
