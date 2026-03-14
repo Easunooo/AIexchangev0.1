@@ -128,7 +128,7 @@ const planFlow = document.getElementById("planFlow");
 const planLabel = document.getElementById("planLabel");
 const planTitle = document.getElementById("planTitle");
 const plannerStepBadge = document.getElementById("plannerStepBadge");
-const plannerAnswers = document.getElementById("plannerAnswers");
+
 const plannerQuestion = document.getElementById("plannerQuestion");
 const plannerChoices = document.getElementById("plannerChoices");
 const plannerChoicesLabel = document.getElementById("plannerChoicesLabel");
@@ -136,6 +136,7 @@ const planOptions = document.getElementById("planOptions");
 const planOtherInput = document.getElementById("planOtherInput");
 const planOtherSubmit = document.getElementById("planOtherSubmit");
 const planComplete = document.getElementById("planComplete");
+const planBackBtn = document.getElementById("planBackBtn");
 const questionPreviewText = document.getElementById("questionPreview").querySelector("p");
 const messageInput = document.getElementById("messageInput");
 
@@ -143,29 +144,17 @@ function getCurrentPlan() {
   return plannerState.planKey ? planScenarios[plannerState.planKey] : null;
 }
 
-function renderAnswers(plan) {
-  plannerAnswers.innerHTML = "";
-
-  const answerEntries = plan.steps.filter((step) => plannerState.answers[step.key]);
-
-  plannerAnswers.classList.toggle("is-empty", answerEntries.length === 0);
-
-  answerEntries.forEach((step) => {
-    const chip = document.createElement("span");
-    chip.className = "planner-answer-chip";
-    chip.textContent = `${step.label} · ${plannerState.answers[step.key]}`;
-    plannerAnswers.appendChild(chip);
-  });
-}
 
 function renderOptions(step) {
   planOptions.innerHTML = "";
 
-  step.options.forEach((option) => {
+  step.options.forEach((option, index) => {
     const button = document.createElement("button");
     button.className = "choice-chip";
     button.type = "button";
     button.textContent = option;
+    button.style.animationDelay = `${index * 0.05}s`;
+    button.style.animation = "scale-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) both";
     button.addEventListener("click", () => {
       submitAnswer(option);
     });
@@ -182,13 +171,17 @@ function renderPlanner() {
 
   const currentStep = plan.steps[plannerState.stepIndex];
 
+  // Re-trigger animation by removing and adding class
+  planFlow.classList.add("is-hidden");
+  void planFlow.offsetWidth; // Force reflow
   planFlow.classList.remove("is-hidden");
+
   planFlow.setAttribute("aria-hidden", "false");
   planLabel.textContent = plan.label;
   planTitle.textContent = plan.title;
-  renderAnswers(plan);
 
   if (currentStep) {
+    planBackBtn.classList.toggle("is-hidden", plannerState.stepIndex === 0);
     plannerStepBadge.textContent = `第 ${plannerState.stepIndex + 1} 轮`;
     plannerQuestion.textContent = currentStep.prompt;
     plannerChoices.classList.remove("is-hidden");
@@ -197,13 +190,31 @@ function renderPlanner() {
     planOtherInput.value = "";
     planOtherInput.placeholder = currentStep.otherPlaceholder;
     renderOptions(currentStep);
+
+    // Scroll card into view if it's a mobile layout
+    if (window.innerWidth < 440) {
+      planFlow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
     return;
   }
 
+  planBackBtn.classList.remove("is-hidden");
   plannerStepBadge.textContent = "已确认";
   plannerQuestion.textContent = "基础信息已确认，点击下方按钮生成你的换汇计划。";
   plannerChoices.classList.add("is-hidden");
   planComplete.classList.remove("is-hidden");
+}
+
+function goBack() {
+  if (plannerState.stepIndex > 0) {
+    plannerState.stepIndex -= 1;
+    // Remove the answer for the step we are going back to
+    const plan = getCurrentPlan();
+    if (plan && plan.steps[plannerState.stepIndex]) {
+      delete plannerState.answers[plan.steps[plannerState.stepIndex].key];
+    }
+    renderPlanner();
+  }
 }
 
 function openPlan(planKey) {
@@ -252,6 +263,10 @@ planOtherInput.addEventListener("keydown", (event) => {
     event.preventDefault();
     submitAnswer(planOtherInput.value);
   }
+});
+
+planBackBtn.addEventListener("click", () => {
+  goBack();
 });
 
 questionButtons.forEach((button) => {

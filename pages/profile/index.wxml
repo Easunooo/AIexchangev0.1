@@ -1,0 +1,32 @@
+<view class="page-shell gradient-page">
+  <view class="content-stack">
+    <view class="hero-card">
+      <text class="eyebrow">预留扩展页</text>
+      <text class="hero-title">“我的”页先作为架构占位</text>
+      <text class="hero-copy">当前不接 AI 和后端，但账号、计划历史和偏好设置的承接位置已经固定下来。</text>
+      <view class="action-row profile-actions">
+        <view class="primary-action" bindtap="goHome">回首页</view>
+        <view class="ghost-action" bindtap="goPlanner">查看计划页</view>
+      </view>
+    </view>
+
+    <view class="section-card">
+      <view class="section-heading">
+        <view>
+          <text class="section-caption">后续接入点</text>
+          <text class="section-title">现在先保留页面骨架与职责说明</text>
+        </view>
+      </view>
+
+      <view class="todo-list">
+        <view wx:for="{{todoItems}}" wx:key="title" class="todo-item">
+          <text class="todo-index">{{index + 1}}</text>
+          <view class="todo-main">
+            <text class="todo-title">{{item.title}}</text>
+            <text class="todo-copy">{{item.copy}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

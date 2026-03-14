@@ -1,0 +1,46 @@
+<view class="page-shell gradient-page">
+  <view class="content-stack">
+    <view class="hero-card">
+      <text class="eyebrow">复杂交互下沉组件</text>
+      <text class="hero-title">{{pageTitle}}</text>
+      <text class="hero-copy">{{pageIntro}}</text>
+      <view class="action-row planner-actions">
+        <view class="ghost-action" bindtap="handleBack">返回上一页</view>
+        <view class="ghost-action" bindtap="handleGoHome">回首页</view>
+      </view>
+    </view>
+
+    <planner-flow
+      scenarios="{{planScenarios}}"
+      order="{{planOrder}}"
+      initial-plan-key="{{initialPlanKey}}"
+      auto-select-first="{{true}}"
+      bindcomplete="handlePlannerComplete"
+    />
+
+    <view wx:if="{{lastGeneratedSummary}}" class="section-card">
+      <view class="section-heading">
+        <view>
+          <text class="section-caption">最近一次生成结果</text>
+          <text class="section-title">计划摘要</text>
+        </view>
+      </view>
+      <text class="result-summary">{{lastGeneratedSummary}}</text>
+    </view>
+
+    <view class="section-card">
+      <view class="section-heading">
+        <view>
+          <text class="section-caption">当前边界</text>
+          <text class="section-title">页面、组件、service 的职责划分</text>
+        </view>
+      </view>
+
+      <view class="tips-list">
+        <text class="tip-item">1. 页面层只负责路由、页面装配和结果承接。</text>
+        <text class="tip-item">2. 计划交互逻辑收敛在 planner-flow 组件内部。</text>
+        <text class="tip-item">3. 数据先走 mock service，后续替换成真实接口不改页面结构。</text>
+      </view>
+    </view>
+  </view>
+</view>

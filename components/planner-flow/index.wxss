@@ -1,0 +1,301 @@
+@import "../../styles/theme.wxss";
+
+.planner-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.planner-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: -20rpx;
+}
+
+.planner-tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 0 0 48.5%;
+  min-height: 154rpx;
+  padding: 18rpx 20rpx;
+  margin-bottom: 20rpx;
+  border-radius: 32rpx;
+  overflow: hidden;
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.98) 0%, rgba(245, 248, 255, 0.96) 58%, rgba(232, 239, 255, 0.96) 100%);
+  border: 1rpx solid rgba(226, 234, 255, 0.98);
+  box-shadow:
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.96),
+    inset 0 -18rpx 34rpx rgba(167, 187, 238, 0.08),
+    0 18rpx 36rpx rgba(92, 113, 169, 0.14);
+}
+
+.planner-tab-active {
+  border-color: rgba(172, 193, 255, 0.98);
+  box-shadow:
+    inset 0 1rpx 0 rgba(255, 255, 255, 1),
+    inset 0 -18rpx 34rpx rgba(162, 188, 255, 0.12),
+    0 20rpx 38rpx rgba(84, 115, 210, 0.18);
+}
+
+.planner-tab-art {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 36%;
+  border-radius: 0 32rpx 32rpx 0;
+  pointer-events: none;
+}
+
+.planner-tab-sheen {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 32rpx;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 16%, rgba(255, 255, 255, 0.9) 0, rgba(255, 255, 255, 0) 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0) 42%);
+}
+
+.planner-tab-frost {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 32rpx;
+  pointer-events: none;
+}
+
+.planner-tab-art-image {
+  position: absolute;
+  opacity: 0.6;
+  filter: blur(0.8rpx);
+}
+
+.planner-tab-frost {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.99) 0%, rgba(255, 255, 255, 0.96) 40%, rgba(255, 255, 255, 0.82) 68%, rgba(255, 255, 255, 0.56) 100%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.22) 0%, rgba(232, 239, 255, 0.08) 100%);
+}
+
+.planner-tab-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 118rpx;
+}
+
+.planner-tab-art-travel .planner-tab-art-image {
+  width: 252rpx;
+  height: 190rpx;
+  right: -34rpx;
+  top: -8rpx;
+  transform: rotate(-2deg);
+}
+
+.planner-tab-art-study .planner-tab-art-image {
+  width: 236rpx;
+  height: 178rpx;
+  right: -18rpx;
+  top: -6rpx;
+  transform: rotate(0deg);
+}
+
+.planner-tab-art-invest .planner-tab-art-image {
+  width: 264rpx;
+  height: 196rpx;
+  right: -34rpx;
+  bottom: -26rpx;
+  transform: rotate(0deg);
+}
+
+.planner-tab-art-remit .planner-tab-art-image {
+  width: 268rpx;
+  height: 202rpx;
+  right: -26rpx;
+  top: -4rpx;
+  transform: rotate(0deg);
+}
+
+.planner-tab-title {
+  display: block;
+  max-width: 50%;
+  color: #17254f;
+  font-size: 31rpx;
+  line-height: 1.22;
+  font-weight: 700;
+  letter-spacing: 0.5rpx;
+  text-align: left;
+  text-shadow: 0 1rpx 0 rgba(255, 255, 255, 0.5);
+}
+
+.planner-tab-active .planner-tab-title {
+  color: #17254f;
+}
+
+.planner-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  margin-top: 6rpx;
+  padding: 0;
+}
+
+.planner-head {
+  display: flex;
+  gap: 16rpx;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 96rpx;
+  min-height: 56rpx;
+  padding: 0 16rpx;
+  margin-left: auto;
+  flex-shrink: 0;
+  border-radius: 18rpx;
+  background: rgba(223, 231, 255, 1);
+  color: #7f8aa8;
+  font-size: 22rpx;
+  line-height: 1;
+}
+
+.planner-head-main {
+  flex: 1;
+}
+
+.planner-panel-label {
+  display: block;
+  color: #5577f4;
+  font-size: 24rpx;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.planner-panel-title {
+  display: none;
+}
+
+.planner-step-badge {
+  display: none;
+}
+
+.answer-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.answer-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 52rpx;
+  padding: 0 18rpx;
+  border-radius: 999rpx;
+  background: rgba(239, 243, 255, 1);
+  color: #52617f;
+  font-size: 22rpx;
+}
+
+.question-card,
+.completion-card {
+  padding: 24rpx;
+  border-radius: 28rpx;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 12rpx 28rpx rgba(91, 114, 180, 0.08);
+}
+
+.question-tag {
+  display: block;
+  color: #7f8aa8;
+  font-size: 22rpx;
+  line-height: 1.4;
+}
+
+.question-text {
+  display: block;
+  color: #17254f;
+  font-size: 28rpx;
+  line-height: 1.7;
+  font-weight: 600;
+}
+
+.choices-label {
+  display: block;
+  margin-top: 18rpx;
+  color: #7f8aa8;
+  font-size: 22rpx;
+  line-height: 1.4;
+}
+
+.option-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 18rpx;
+  margin-bottom: -14rpx;
+}
+
+.option-card {
+  display: flex;
+  align-items: center;
+  flex: 0 0 48.5%;
+  min-height: 116rpx;
+  padding: 18rpx;
+  margin-bottom: 14rpx;
+  border-radius: 24rpx;
+  background: rgba(247, 249, 255, 1);
+  color: #37476e;
+  font-size: 24rpx;
+  line-height: 1.5;
+  border: 1rpx solid rgba(229, 236, 255, 1);
+}
+
+.option-card-text {
+  display: block;
+  width: 100%;
+  min-height: 2.9em;
+  color: #37476e;
+  font-size: 24rpx;
+  line-height: 1.45;
+  text-align: left;
+}
+
+.other-block {
+  display: flex;
+  flex-direction: column;
+  gap: 14rpx;
+  margin-top: 18rpx;
+}
+
+.other-input {
+  min-height: 88rpx;
+  padding: 0 22rpx;
+  border-radius: 24rpx;
+  background: rgba(247, 249, 255, 1);
+  border: 1rpx solid rgba(229, 236, 255, 1);
+  color: #17254f;
+  font-size: 26rpx;
+}
+
+.other-submit {
+  width: 100%;
+}
+
+.complete-action {
+  width: 100%;
+  margin-top: 18rpx;
+}

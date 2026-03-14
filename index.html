@@ -1,28 +1,39 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>腾讯AI汇率助手 UI Demo</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
+
 <body>
   <div class="page-bg"></div>
   <main class="phone-frame">
     <header class="topbar">
-      <button class="icon-button" type="button" aria-label="返回">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M15 5L8 12L15 19" />
-        </svg>
-      </button>
+      <div class="topbar-left">
+        <button class="nav-icon" type="button" aria-label="返回">
+          <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M395.21518 513.604544l323.135538-312.373427c19.052938-18.416442 19.052938-48.273447 0-66.660212-19.053961-18.416442-49.910737-18.416442-68.964698 0L291.75176 480.290811c-19.052938 18.416442-19.052938 48.273447 0 66.660212l357.633237 345.688183c9.525957 9.207709 22.01234 13.796214 34.497699 13.796214 12.485359 0 24.971741-4.588505 34.466999-13.82896 19.052938-18.416442 19.052938-48.242747 0-66.660212L395.21518 513.604544z">
+            </path>
+          </svg>
+        </button>
+        <button class="nav-icon" type="button" aria-label="新会话">
+          <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M512 188c17.673 0 32 14.327 32 32 0 17.673-14.327 32-32 32H304c-48.601 0-88 39.399-88 88v320.108c0 48.601 39.399 88 88 88h28.935c21.144 0 42.056 4.411 61.399 12.953l82.119 36.261a87.997 87.997 0 0 0 71.094 0l82.119-36.261a151.988 151.988 0 0 1 61.399-12.953H720c48.601 0 88-39.399 88-88V500.054c0-17.673 14.327-32 32-32 17.673 0 32 14.327 32 32v160.054c0 83.948-68.053 152-152 152h-28.935a88.011 88.011 0 0 0-35.546 7.499l-82.12 36.261a151.994 151.994 0 0 1-122.798 0l-82.12-36.261a88.011 88.011 0 0 0-35.546-7.499H304c-83.947 0-152-68.052-152-152V340c0-83.947 68.053-152 152-152h208z m216-32c17.673 0 32 14.327 32 32v96h96c17.673 0 32 14.327 32 32 0 17.673-14.327 32-32 32h-96v96c0 17.673-14.327 32-32 32-17.673 0-32-14.327-32-32v-96h-96c-17.673 0-32-14.327-32-32 0-17.673 14.327-32 32-32h96v-96c0-17.673 14.327-32 32-32z">
+            </path>
+          </svg>
+        </button>
+      </div>
       <div class="topbar-title">
         <h1>AI汇率助手</h1>
       </div>
-      <button class="capsule-button" type="button" aria-label="更多">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+      <div class="topbar-right">
+        <!-- Placeholder to balance the layout if needed, or leave empty if using absolute centering -->
+      </div>
     </header>
 
     <section class="welcome-card glass-card">
@@ -41,18 +52,42 @@
 
         <div class="plan-tabs" id="planTabs">
           <button class="plan-tab" type="button" data-plan="travel">
+            <span class="plan-tab-icon">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z" />
+              </svg>
+            </span>
             <span class="plan-tab-top">出行前</span>
             <span class="plan-tab-label">旅游</span>
           </button>
           <button class="plan-tab" type="button" data-plan="study">
+            <span class="plan-tab-icon">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM3.89 9L12 4.58 20.11 9 12 13.42 3.89 9zM5 13.18v2.81c0 .73.4 1.41 1.04 1.76l5 2.73c.6.33 1.32.33 1.92 0l5-2.73c.64-.35 1.04-1.03 1.04-1.76v-2.81l-6.04 3.3c-.6.33-1.32.33-1.92 0L5 13.18z" />
+              </svg>
+            </span>
             <span class="plan-tab-top">学费前</span>
             <span class="plan-tab-label">留学</span>
           </button>
           <button class="plan-tab" type="button" data-plan="invest">
+            <span class="plan-tab-icon">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 1.9 1.55 3.28 3.68 3.75V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z" />
+              </svg>
+            </span>
             <span class="plan-tab-top">配置前</span>
             <span class="plan-tab-label">投资</span>
           </button>
           <button class="plan-tab" type="button" data-plan="remit">
+            <span class="plan-tab-icon">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M20 4H4c-1.11 0-1.99.89-1.99 1.99L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4V6h16v12zM12 10.5h2V13h-2v2h-2v-2H8v-2h2V8h2v2.5z" />
+              </svg>
+            </span>
             <span class="plan-tab-top">到账前</span>
             <span class="plan-tab-label">跨境汇款</span>
           </button>
@@ -60,6 +95,12 @@
 
         <div class="planner-panel is-hidden" id="planFlow" aria-hidden="true">
           <div class="planner-panel-head">
+            <button class="back-btn" id="planBackBtn" type="button" aria-label="上一步">
+              <svg viewBox="0 0 24 24">
+                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+              </svg>
+              <span>返回</span>
+            </button>
             <div>
               <p class="planner-panel-label" id="planLabel">旅游换汇计划</p>
               <h4 class="planner-panel-title" id="planTitle">先确认 3 个核心信息，再生成换汇计划</h4>
@@ -67,7 +108,7 @@
             <span class="planner-step-badge" id="plannerStepBadge">第 1 轮</span>
           </div>
 
-          <div class="planner-answer-strip" id="plannerAnswers"></div>
+
 
           <div class="planner-question-card">
             <p class="planner-question-tag">当前问题</p>
@@ -143,11 +184,10 @@
 
       <div class="composer">
         <button class="voice-button" type="button" aria-label="语音输入">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 15a3 3 0 0 0 3-3V7a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Z" />
-            <path d="M18 11a6 6 0 0 1-12 0" />
-            <path d="M12 17v3" />
-            <path d="M9 20h6" />
+          <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M512 64c247.424 0 448 200.576 448 448S759.424 960 512 960 64 759.424 64 512 264.576 64 512 64z m0 68c-209.868 0-380 170.132-380 380s170.132 380 380 380 380-170.132 380-380-170.132-380-380-380z m52.766 130.24c12.33-12.32 32.298-12.32 44.625-0.005l0.018 0.019 4.026 4.133c131.545 137.211 131.4 354.035-0.317 491.07l-4.073 4.17-0.342 0.348c-5.74 5.758-13.6 9.025-21.802 9.025a30.85 30.85 0 0 1-22.19-9.419c-11.208-11.926-11.208-30.444-0.044-42.324l0.097-0.1 3.343-3.404c109.19-113.003 109.2-292.426 0.033-405.442l-3.376-3.438-0.365-0.372c-11.943-12.356-11.821-32.055 0.367-44.261z m-115.333 89.643c11.818-10.51 29.644-10.51 41.463-0.003l0.462 0.418 0.096 0.1 2.53 2.652c82.68 88.053 82.688 225.361 0.026 313.424l-2.672 2.799-0.124 0.11-0.358 0.316c-11.864 10.301-29.51 10.302-41.376 0.003l-0.533-0.472-0.157-0.171-0.325-0.36c-10.61-11.942-10.502-30.015 0.325-41.832l0.132-0.138 1.892-1.933c61.805-64.168 61.812-165.846 0.019-230.022l-1.998-2.04-0.083-0.092-0.318-0.361c-10.4-11.99-10.294-29.879 0.318-41.747l0.154-0.172 0.17-0.157z m-128.057 125.89c13.666-13.46 34.104-17.488 51.906-10.157C391.264 475.02 403 492.549 403 512c0 19.452-11.736 36.98-29.718 44.385a47.973 47.973 0 0 1-51.93-10.182l-0.413-0.412-0.425-0.427A47.64 47.64 0 0 1 306.889 512a47.658 47.658 0 0 1 13.675-33.413l0.4-0.403z">
+            </path>
           </svg>
         </button>
         <label class="input-shell" aria-label="文字输入">
@@ -161,4 +201,5 @@
 
   <script src="./script.js"></script>
 </body>
+
 </html>

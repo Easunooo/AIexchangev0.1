@@ -1,0 +1,26 @@
+@import "../../styles/theme.wxss";
+
+.planner-actions {
+  margin-top: 22rpx;
+}
+
+.result-summary {
+  display: block;
+  margin-top: 18rpx;
+  color: #17254f;
+  font-size: 28rpx;
+  line-height: 1.8;
+}
+
+.tips-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14rpx;
+  margin-top: 20rpx;
+}
+
+.tip-item {
+  color: #50607d;
+  font-size: 26rpx;
+  line-height: 1.8;
+}

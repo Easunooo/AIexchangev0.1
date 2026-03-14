@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "换汇计划",
+  "usingComponents": {
+    "planner-flow": "/components/planner-flow/index"
+  }
+}

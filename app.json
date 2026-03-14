@@ -1,0 +1,16 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/planner/index",
+    "pages/profile/index"
+  ],
+  "window": {
+    "backgroundColor": "#eef3ff",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#eef3ff",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "跨境换汇助手"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

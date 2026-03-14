@@ -81,48 +81,70 @@ input {
 }
 
 .topbar {
-  display: grid;
-  grid-template-columns: 38px 1fr 64px;
+  display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 4px 2px 0;
+  justify-content: space-between;
+  padding: 12px 4px 8px;
+  position: relative;
 }
 
-.icon-button,
-.capsule-button {
-  display: inline-flex;
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 2;
+}
+
+.nav-icon {
+  display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 999px;
+  width: 24px;
+  height: 24px;
+  color: #000;
+  transition: opacity 0.2s ease;
 }
 
-.icon-button {
-  width: 38px;
-  height: 38px;
-  background: rgba(255, 255, 255, 0.45);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.48);
+.nav-icon:active {
+  opacity: 0.5;
 }
 
-.icon-button svg,
-.question-item svg,
-.voice-button svg {
-  width: 20px;
-  height: 20px;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 2.2;
+.nav-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+button[aria-label="返回"] svg {
+  transform: scale(0.85);
 }
 
 .topbar-title {
+  position: absolute;
+  left: 0;
+  right: 0;
   text-align: center;
+  pointer-events: none;
 }
 
 .topbar-title h1 {
-  margin: 3px 0 0;
-  font-size: 1.06rem;
-  letter-spacing: 0.01em;
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: -0.01em;
+}
+
+.topbar-right {
+  width: 76px;
+  /* Balance the left width to keep title perfectly centered */
+}
+
+.question-item svg,
+.voice-button svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
 }
 
 .brand-badge,
@@ -142,20 +164,12 @@ input {
   background: rgba(255, 255, 255, 0.56);
 }
 
-.capsule-button {
-  justify-self: end;
-  gap: 5px;
-  width: 64px;
-  height: 34px;
-  background: rgba(123, 141, 202, 0.2);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
-}
-
-.capsule-button span {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.95);
+.eyebrow,
+.hint-chip,
+.plan-step {
+  padding: 2px 8px;
+  color: var(--text-soft);
+  background: rgba(255, 255, 255, 0.4);
 }
 
 .welcome-card,
@@ -202,13 +216,12 @@ input {
 .planner-card {
   position: relative;
   overflow: hidden;
-  padding: 14px 12px 12px;
-  background:
-    radial-gradient(circle at 92% 12%, rgba(122, 149, 255, 0.16) 0, transparent 24%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 255, 0.92) 100%);
-  border: 1px solid var(--card-border);
+  padding: 16px 14px 14px;
+  background: #fff;
+  border: 1px solid rgba(222, 231, 255, 0.8);
   border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 4px 12px rgba(110, 133, 187, 0.08);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .planner-card::before {
@@ -217,7 +230,7 @@ input {
   inset: 0 auto auto 0;
   width: 100%;
   height: 1px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.9) 0%, rgba(146, 171, 255, 0.1) 100%);
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .planner-heading {
@@ -252,57 +265,85 @@ input {
 
 .plan-tabs {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
 }
 
 .plan-tab {
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  min-height: 56px;
-  padding: 8px 8px 7px;
-  border-radius: 16px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 84px;
+  padding: 12px 6px 10px;
+  border-radius: 20px;
   color: var(--text-body);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(241, 245, 255, 0.94) 100%);
+  background: rgba(255, 255, 255, 0.6);
   box-shadow:
-    inset 0 0 0 1px rgba(223, 232, 255, 0.98),
-    0 8px 16px rgba(110, 133, 187, 0.06);
-  text-align: left;
-  transition: transform 180ms ease, background 180ms ease, color 180ms ease, box-shadow 180ms ease;
+    inset 0 0 0 1px rgba(223, 232, 255, 0.7),
+    0 4px 12px rgba(110, 133, 187, 0.04);
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.plan-tab-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: rgba(108, 140, 255, 0.1);
+  color: var(--primary);
+  transition: all 0.3s ease;
+}
+
+.plan-tab-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
 }
 
 .plan-tab.is-active {
   color: #fff;
-  background: linear-gradient(135deg, #7d97ff 0%, #5d7cff 100%);
-  box-shadow: 0 18px 30px rgba(94, 121, 228, 0.26);
+  background: var(--primary);
+  box-shadow: 0 4px 12px rgba(74, 111, 255, 0.2);
+  transform: translateY(-1px);
 }
 
 .plan-tab-top {
   display: inline-flex;
   align-items: center;
-  min-height: 18px;
+  height: 16px;
   padding: 0 6px;
-  border-radius: 999px;
-  color: #7d89ae;
-  font-size: 0.56rem;
-  background: rgba(255, 255, 255, 0.86);
-  box-shadow: inset 0 0 0 1px rgba(230, 236, 255, 0.98);
+  border-radius: 4px;
+  color: var(--text-soft);
+  font-size: 0.52rem;
+  background: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .plan-tab-label {
   display: block;
   color: var(--text-strong);
-  font-size: 0.74rem;
-  font-weight: 700;
+  font-size: 0.72rem;
+  font-weight: 600;
   line-height: 1.2;
+  transition: all 0.3s ease;
+}
+
+.plan-tab.is-active .plan-tab-icon {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  transform: scale(1.1);
 }
 
 .plan-tab.is-active .plan-tab-top {
-  color: rgba(255, 255, 255, 0.96);
-  background: rgba(255, 255, 255, 0.14);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .plan-tab.is-active .plan-tab-label {
@@ -312,79 +353,72 @@ input {
 .planner-panel {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid rgba(222, 231, 255, 0.9);
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(222, 231, 255, 0.6);
+  animation: slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.planner-panel.is-hidden,
-.message.is-hidden {
+.planner-panel.is-hidden {
   display: none;
 }
 
 .planner-panel-head {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 10px;
+  align-items: center;
+  gap: 12px;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 10px 6px 4px;
+  border-radius: 10px;
+  color: var(--text-soft);
+  font-size: 0.76rem;
+  font-weight: 500;
+  background: var(--primary-soft);
+  transition: all 0.2s ease;
+}
+
+.back-btn:active {
+  transform: translateX(-2px);
+  background: #e2e8ff;
+}
+
+.back-btn.is-hidden {
+  display: none;
+}
+
+.back-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
 }
 
 .planner-panel-label {
   margin: 0;
   color: var(--primary-strong);
-  font-size: 0.66rem;
+  font-size: 0.72rem;
   font-weight: 700;
 }
 
 .planner-panel-title {
-  margin: 4px 0 0;
-  font-size: 0.82rem;
-  line-height: 1.45;
-}
-
-.planner-step-badge {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  min-height: 24px;
-  padding: 0 8px;
-  border-radius: 999px;
-  color: var(--primary-strong);
-  font-size: 0.62rem;
-  background: rgba(233, 239, 255, 0.98);
-  box-shadow: inset 0 0 0 1px rgba(211, 221, 255, 0.98);
-}
-
-.planner-answer-strip {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.planner-answer-strip.is-empty {
   display: none;
 }
 
-.planner-answer-chip {
-  display: inline-flex;
-  align-items: center;
-  min-height: 26px;
-  padding: 0 10px;
-  border-radius: 999px;
-  color: var(--text-body);
-  font-size: 0.64rem;
-  background: rgba(246, 248, 255, 0.98);
-  box-shadow: inset 0 0 0 1px rgba(226, 233, 255, 0.98);
+.planner-step-badge {
+  display: none;
 }
+
 
 .planner-question-card {
   padding: 14px 12px;
   border-radius: 18px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(244, 247, 255, 0.98) 100%);
-  box-shadow:
-    inset 0 0 0 1px rgba(229, 236, 255, 0.98),
-    0 10px 20px rgba(117, 137, 190, 0.08);
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(117, 137, 190, 0.08);
 }
 
 .planner-question-tag {
@@ -433,10 +467,8 @@ input {
   color: var(--text-body);
   font-size: 0.76rem;
   line-height: 1.45;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(242, 246, 255, 0.98) 100%);
-  box-shadow:
-    inset 0 0 0 1px rgba(224, 232, 255, 0.98),
-    0 8px 18px rgba(111, 133, 187, 0.08);
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(111, 133, 187, 0.08);
   text-align: left;
   transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
 }
@@ -444,25 +476,31 @@ input {
 .choice-chip:hover,
 .choice-chip.is-selected {
   transform: translateY(-1px);
-  background: linear-gradient(180deg, rgba(235, 241, 255, 1) 0%, rgba(225, 234, 255, 1) 100%);
-  box-shadow: 0 12px 22px rgba(111, 133, 187, 0.14);
+  background: var(--primary-soft);
+  box-shadow: 0 4px 12px rgba(111, 133, 187, 0.08);
 }
 
 .other-entry {
-  display: grid;
-  grid-template-columns: 1fr 62px;
-  gap: 8px;
-  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.secondary-button {
+  width: 100%;
 }
 
 .other-input {
-  min-height: 42px;
-  padding: 0 12px;
+  min-height: 44px;
+  padding: 0 14px;
   border-radius: 14px;
   color: var(--text-strong);
-  font-size: 0.72rem;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: inset 0 0 0 1px rgba(228, 234, 250, 0.98);
+  font-size: 0.74rem;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow:
+    inset 0 0 0 1px rgba(228, 234, 250, 0.8),
+    0 2px 6px rgba(110, 133, 187, 0.04);
 }
 
 .other-input::placeholder {
@@ -470,12 +508,20 @@ input {
 }
 
 .secondary-button {
-  min-height: 42px;
+  min-height: 44px;
+  padding: 0 16px;
   border-radius: 14px;
-  color: var(--primary-strong);
-  font-size: 0.72rem;
-  background: rgba(230, 237, 255, 0.96);
-  box-shadow: inset 0 0 0 1px rgba(204, 216, 255, 0.98);
+  color: #fff;
+  font-size: 0.74rem;
+  font-weight: 600;
+  background: var(--primary);
+  box-shadow: none;
+  transition: all 0.2s ease;
+}
+
+.secondary-button:active {
+  transform: scale(0.96);
+  opacity: 0.9;
 }
 
 .plan-complete {
@@ -494,13 +540,14 @@ input {
 .primary-button {
   flex-shrink: 0;
   min-width: 96px;
-  height: 36px;
+  height: 40px;
   padding: 0 12px;
-  border-radius: 12px;
-  font-size: 0.72rem;
+  border-radius: 14px;
+  font-size: 0.74rem;
+  font-weight: 600;
   color: #fff;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-strong) 100%);
-  box-shadow: 0 18px 30px rgba(89, 117, 223, 0.28);
+  background: var(--primary);
+  box-shadow: 0 4px 12px rgba(74, 111, 255, 0.2);
 }
 
 .ask-card {
@@ -554,7 +601,7 @@ input {
 
 .message.user {
   margin-left: auto;
-  background: linear-gradient(135deg, #d5ddff 0%, #c3d1ff 100%);
+  background: #d9e4ff;
   border-top-right-radius: 12px;
 }
 
@@ -601,7 +648,7 @@ input {
   border-radius: 50%;
   color: var(--text-strong);
   background: #fff;
-  box-shadow: 0 12px 28px rgba(104, 125, 182, 0.16);
+  box-shadow: 0 2px 8px rgba(104, 125, 182, 0.12);
 }
 
 .input-shell {
@@ -644,8 +691,8 @@ input {
 }
 
 .question-item.is-selected {
-  background: linear-gradient(135deg, rgba(225, 233, 255, 0.98) 0%, rgba(213, 224, 255, 0.98) 100%);
-  box-shadow: 0 16px 28px rgba(103, 126, 196, 0.16);
+  background: var(--primary-soft);
+  box-shadow: none;
 }
 
 @keyframes rise-in {
@@ -657,6 +704,30 @@ input {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -696,6 +767,6 @@ input {
   }
 
   .choice-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
