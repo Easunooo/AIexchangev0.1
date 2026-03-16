@@ -1,0 +1,3 @@
+server/.env.local
+server/*.log
+.dev.vars*

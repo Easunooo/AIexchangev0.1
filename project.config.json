@@ -1,5 +1,6 @@
 {
   "setting": {
+    "urlCheck": false,
     "es6": true,
     "postcss": true,
     "minified": true,
@@ -12,14 +13,86 @@
       "outputPath": ""
     },
     "useCompilerPlugins": false,
-    "minifyWXML": true
+    "minifyWXML": true,
+    "compileWorklet": false,
+    "uploadWithSourceMap": true,
+    "packNpmManually": false,
+    "minifyWXSS": true,
+    "localPlugins": false,
+    "disableUseStrict": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true
   },
   "compileType": "miniprogram",
+  "miniprogramRoot": "miniprogram/",
   "simulatorPluginLibVersion": {},
   "packOptions": {
-    "ignore": [],
+    "ignore": [
+      {
+        "value": ".git",
+        "type": "folder"
+      },
+      {
+        "value": ".github",
+        "type": "folder"
+      },
+      {
+        "value": ".wrangler",
+        "type": "folder"
+      },
+      {
+        "value": "server",
+        "type": "folder"
+      },
+      {
+        "value": "worker",
+        "type": "folder"
+      },
+      {
+        "value": ".dev.vars.example",
+        "type": "file"
+      },
+      {
+        "value": ".gitignore",
+        "type": "file"
+      },
+      {
+        "value": ".nojekyll",
+        "type": "file"
+      },
+      {
+        "value": "CLOUDFLARE_DEPLOY.md",
+        "type": "file"
+      },
+      {
+        "value": "PROJECT_ARCHITECTURE_BASELINE.md",
+        "type": "file"
+      },
+      {
+        "value": "index.html",
+        "type": "file"
+      },
+      {
+        "value": "script.js",
+        "type": "file"
+      },
+      {
+        "value": "styles.css",
+        "type": "file"
+      },
+      {
+        "value": "package.json",
+        "type": "file"
+      },
+      {
+        "value": "wrangler.jsonc",
+        "type": "file"
+      }
+    ],
     "include": []
   },
   "appid": "wx4c3fbea5c2239dc2",
-  "editorSetting": {}
+  "editorSetting": {},
+  "libVersion": "3.15.0"
 }

@@ -1,0 +1,70 @@
+<view class="planner-shell">
+  <view wx:if="{{!currentScenario}}" class="planner-tabs">
+    <view
+      wx:for="{{planList}}"
+      wx:key="key"
+      class="planner-tab {{item.active ? 'planner-tab-active' : ''}}"
+      data-plan-key="{{item.key}}"
+      bindtap="switchScenario"
+    >
+      <view class="planner-tab-art {{item.artClass}}">
+        <image class="planner-tab-art-image" src="{{item.artPath}}" mode="aspectFill" />
+      </view>
+      <view class="planner-tab-sheen"></view>
+      <view class="planner-tab-frost"></view>
+      <view class="planner-tab-content">
+        <text class="planner-tab-title">{{item.tabLabel}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{currentScenario}}" class="planner-panel">
+    <view class="planner-head">
+      <view class="planner-head-main">
+        <text class="planner-panel-label">{{currentScenario.planLabel}}</text>
+        <text class="planner-panel-title">{{currentScenario.title}}</text>
+      </view>
+      <view class="back-button" bindtap="goBack">{{backLabel}}</view>
+    </view>
+
+    <view wx:if="{{currentStep}}" class="surface-card question-card">
+      <text class="question-text">{{currentStep.prompt}}</text>
+
+      <view class="option-grid">
+        <view
+          wx:for="{{currentStep.options}}"
+          wx:key="*this"
+          class="option-card"
+          data-value="{{item}}"
+          bindtap="chooseOption"
+        >
+          <text class="option-card-text">{{item}}</text>
+        </view>
+      </view>
+
+      <view class="other-block">
+        <view wx:if="{{isAmountStep}}" class="amount-input-shell">
+          <input
+            class="other-input amount-input"
+            placeholder="{{amountPlaceholder}}"
+            type="digit"
+            value="{{otherValue}}"
+            bindinput="inputOther"
+          />
+          <text class="amount-unit">{{amountUnitLabel}}</text>
+        </view>
+        <input
+          wx:else
+          class="other-input"
+          placeholder="{{currentStep.otherPlaceholder}}"
+          type="text"
+          value="{{otherValue}}"
+          bindinput="inputOther"
+        />
+        <view class="link-action other-submit" bindtap="submitOther">
+          {{isLastQuestion ? generatePlanLabel : confirmLabel}}
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

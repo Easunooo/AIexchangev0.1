@@ -1,0 +1,110 @@
+@import "../../styles/theme.wxss";
+
+.profile-actions {
+  margin-top: 22rpx;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18rpx;
+  margin-top: 24rpx;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  padding: 24rpx;
+  border-radius: 28rpx;
+  background: rgba(246, 248, 255, 1);
+}
+
+.history-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.history-title {
+  display: block;
+  color: #17254f;
+  font-size: 28rpx;
+  line-height: 1.45;
+  font-weight: 600;
+}
+
+.history-preview {
+  display: block;
+  margin-top: 8rpx;
+  color: #54627f;
+  font-size: 24rpx;
+  line-height: 1.65;
+}
+
+.history-meta {
+  display: block;
+  margin-top: 10rpx;
+  color: #7a87a6;
+  font-size: 22rpx;
+  line-height: 1.4;
+}
+
+.history-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12rpx;
+  flex-shrink: 0;
+}
+
+.history-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 52rpx;
+  height: 52rpx;
+  padding: 0 12rpx;
+  border-radius: 999rpx;
+  background: rgba(90, 112, 240, 0.14);
+  color: #4d63d4;
+  font-size: 22rpx;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.history-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 92rpx;
+  min-height: 50rpx;
+  padding: 0 16rpx;
+  border-radius: 18rpx;
+  background: rgba(231, 237, 255, 0.9);
+  color: #4b63d8;
+  font-size: 22rpx;
+  line-height: 1;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  margin-top: 24rpx;
+  padding: 28rpx 0 10rpx;
+}
+
+.empty-title {
+  display: block;
+  color: #17254f;
+  font-size: 28rpx;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.empty-copy {
+  display: block;
+  color: #54627f;
+  font-size: 24rpx;
+  line-height: 1.7;
+}

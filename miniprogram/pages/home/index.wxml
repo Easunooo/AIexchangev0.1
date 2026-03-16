@@ -1,0 +1,392 @@
+<view class="home-page">
+  <view class="page-bg"></view>
+  <view class="page-shell">
+    <view
+      class="custom-nav"
+      style="height: {{navBarHeight}}px;"
+    ></view>
+
+    <view
+      class="topbar-shell"
+      style="padding-top: {{navStatusBarHeight}}px; padding-right: {{navRightGap}}px;"
+    >
+      <view class="topbar" style="height: {{navContentHeight}}px;">
+        <view class="topbar-actions">
+          <view class="topbar-action" bindtap="handleNewChat">
+            <image class="topbar-action-icon" src="/assets/icons/new-chat.svg" mode="aspectFit" />
+            <text class="topbar-action-text">{{newChatLabel}}</text>
+          </view>
+
+          <view class="topbar-action topbar-action-secondary" bindtap="toggleHistoryPanel">
+            <text class="topbar-action-text">{{historyLabel}}</text>
+            <text wx:if="{{historyCount > 0}}" class="topbar-badge">{{historyCount}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="phone-frame">
+      <view
+        class="history-panel-mask {{historyPanelVisible ? 'history-panel-mask-visible' : ''}}"
+        bindtap="closeHistoryPanel"
+      ></view>
+      <view
+        class="history-panel {{historyPanelVisible ? 'history-panel-visible' : ''}}"
+        catchtap="noop"
+      >
+        <view class="history-panel-head">
+          <view>
+            <text class="eyebrow">{{historyPanelEyebrow}}</text>
+            <text class="history-panel-title">{{historyPanelTitle}}</text>
+          </view>
+          <view class="history-panel-head-actions">
+            <view class="history-panel-link" bindtap="clearHistoryPanel">{{clearAllLabel}}</view>
+            <view class="history-panel-link" bindtap="closeHistoryPanel">{{closePanelLabel}}</view>
+          </view>
+        </view>
+
+        <view wx:if="{{historyItems.length}}" class="history-panel-list">
+          <view
+            wx:for="{{historyItems}}"
+            wx:key="id"
+            class="history-panel-item {{activeConversationId === item.id ? 'history-panel-item-active' : ''}}"
+            data-conversation-id="{{item.id}}"
+            bindtap="openConversationFromPanel"
+          >
+            <view class="history-panel-item-main">
+              <text class="history-panel-item-title">{{item.title}}</text>
+            </view>
+            <text class="history-panel-item-time">{{item.updatedLabel}}</text>
+            <view
+              class="history-panel-delete"
+              data-conversation-id="{{item.id}}"
+              catchtap="deleteConversationFromPanel"
+            >
+              \u5220\u9664
+            </view>
+          </view>
+        </view>
+
+        <view wx:else class="history-panel-empty">
+          <text class="history-panel-empty-title">{{historyEmptyTitle}}</text>
+          <text class="history-panel-empty-copy">{{historyEmptyCopy}}</text>
+        </view>
+      </view>
+
+      <view class="welcome-stage">
+        <view class="welcome-hero">
+          <view class="welcome-wordmark-wrap">
+            <image class="welcome-wordmark" src="/iambululu.svg" mode="aspectFit" />
+          </view>
+        </view>
+      </view>
+
+      <view class="ask-card-wrap">
+        <view class="hero-mascot-layer">
+          <image class="hero-mascot-image" src="/bululu.svg" mode="aspectFit" />
+        </view>
+
+        <view class="ask-card glass-card">
+          <view class="section-heading">
+            <view>
+              <text class="eyebrow">{{hotQuestionsEyebrow}}</text>
+              <text class="section-title">{{hotQuestionsTitle}}</text>
+            </view>
+          </view>
+
+          <view class="question-list">
+            <view
+              wx:for="{{hotQuestions}}"
+              wx:key="id"
+              class="question-item {{selectedQuestionId === item.id ? 'question-item-active' : ''}}"
+              data-id="{{item.id}}"
+              data-question="{{item.text}}"
+              bindtap="pickQuestion"
+            >
+              <text class="question-item-text">{{item.text}}</text>
+              <text class="question-item-arrow">></text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="preview-chat">
+        <view
+          wx:for="{{conversationMessages}}"
+          wx:for-item="message"
+          wx:key="id"
+          id="message-{{message.id}}"
+          class="message {{message.role === 'assistant' ? 'assistant-message glass-card' : 'user-message'}} {{message.status === 'streaming' ? 'message-streaming' : ''}} {{message.status === 'error' ? 'message-error' : ''}}"
+        >
+          <rich-text wx:if="{{message.role === 'assistant'}}" class="message-rich" nodes="{{message.renderedContent}}"></rich-text>
+          <text wx:else class="message-text">{{message.content}}</text>
+
+          <view wx:if="{{message.role === 'assistant' && message.widgetView}}" class="message-widget">
+            <block wx:if="{{message.widgetView.type === 'choices'}}">
+              <text class="widget-title">{{message.widgetView.title}}</text>
+              <text wx:if="{{message.widgetView.helper}}" class="widget-helper">{{message.widgetView.helper}}</text>
+
+              <view wx:if="{{message.widgetView.options.length}}" class="widget-option-list">
+                <view
+                  wx:for="{{message.widgetView.options}}"
+                  wx:for-item="option"
+                  wx:key="value"
+                  class="widget-option {{option.selected ? 'widget-option-active' : ''}} {{message.widgetView.variant === 'action' ? 'widget-option-action' : ''}} {{message.widgetView.variant === 'plan' ? 'widget-option-plan' : ''}}"
+                  data-message-id="{{message.id}}"
+                  data-field-key="{{message.widgetView.fieldKey}}"
+                  data-value="{{option.value}}"
+                  bindtap="handleWidgetOptionTap"
+                >
+                  <text class="widget-option-text">{{option.label}}</text>
+                </view>
+              </view>
+
+              <view wx:if="{{message.widgetView.inputPlaceholder}}" class="widget-input-row">
+                <input
+                  class="widget-input"
+                  type="text"
+                  placeholder="{{message.widgetView.inputPlaceholder}}"
+                  value="{{message.widgetView.inputValue}}"
+                  data-message-id="{{message.id}}"
+                  bindinput="handleWidgetInput"
+                />
+                <view
+                  class="widget-submit"
+                  data-message-id="{{message.id}}"
+                  data-field-key="{{message.widgetView.fieldKey}}"
+                  bindtap="handleWidgetSubmit"
+                >
+                  <text class="widget-submit-text">发送</text>
+                </view>
+              </view>
+            </block>
+
+            <block wx:elif="{{message.widgetView.type === 'channel-compare'}}">
+              <text class="widget-card-label">{{message.widgetView.title}}</text>
+              <text class="widget-title">{{message.widgetView.summary}}</text>
+              <text wx:if="{{message.widgetView.helper}}" class="widget-helper">{{message.widgetView.helper}}</text>
+              <view class="channel-card-list">
+                <view
+                  wx:for="{{message.widgetView.channels}}"
+                  wx:for-item="channel"
+                  wx:key="name"
+                  class="channel-card-item {{channel.highlight ? 'channel-card-item-active' : ''}}"
+                >
+                  <view class="channel-card-head">
+                    <text class="channel-card-name">{{channel.name}}</text>
+                    <text class="channel-card-badge {{channel.highlight ? 'channel-card-badge-active' : ''}}">{{channel.badgeText}}</text>
+                  </view>
+                  <text class="channel-card-amount">{{channel.receiveText}}</text>
+                  <view class="channel-card-row">
+                    <text class="channel-card-note {{channel.highlight ? 'channel-card-note-active' : ''}}">{{channel.note}}</text>
+                    <text class="channel-card-note">{{channel.eta}}</text>
+                  </view>
+                  <text class="channel-card-meta">{{channel.rate}}</text>
+                  <text class="channel-card-meta">{{channel.fee}}</text>
+                </view>
+              </view>
+              <view class="widget-summary-box">
+                <text class="widget-summary-label">AI 判断</text>
+                <text class="widget-summary-text">{{message.widgetView.decisionText}}</text>
+              </view>
+              <view class="widget-action-row">
+                <view
+                  wx:for="{{message.widgetView.actions}}"
+                  wx:key="label"
+                  class="widget-action-button widget-action-button-{{item.kind}}"
+                  data-action-type="{{item.actionType}}"
+                  data-message-text="{{item.messageText}}"
+                  data-link="{{item.link}}"
+                  bindtap="handleWidgetActionTap"
+                >
+                  <text class="widget-action-text widget-action-text-{{item.kind}}">{{item.label}}</text>
+                </view>
+              </view>
+            </block>
+
+            <block wx:elif="{{message.widgetView.type === 'batch-exchange'}}">
+              <text class="widget-card-label">{{message.widgetView.title}}</text>
+              <text class="widget-title">{{message.widgetView.summary}}</text>
+              <text wx:if="{{message.widgetView.helper}}" class="widget-helper">{{message.widgetView.helper}}</text>
+              <view class="batch-card-list">
+                <view
+                  wx:for="{{message.widgetView.batches}}"
+                  wx:for-item="batch"
+                  wx:key="phase"
+                  class="batch-card-item"
+                >
+                  <view class="batch-card-head">
+                    <view class="batch-card-phase-wrap">
+                      <view class="batch-card-dot" style="background: {{batch.dotColor}};"></view>
+                      <text class="batch-card-phase">{{batch.phase}}</text>
+                    </view>
+                    <text class="batch-card-ratio">{{batch.ratio}}</text>
+                  </view>
+                  <view class="batch-card-row">
+                    <text class="batch-card-meta">{{batch.timing}}</text>
+                    <text class="batch-card-amount">{{batch.amountText}}</text>
+                  </view>
+                  <text class="batch-card-meta">{{batch.reason}}</text>
+                </view>
+              </view>
+              <view class="widget-summary-box">
+                <text class="widget-summary-label">总结</text>
+                <text class="widget-summary-text">{{message.widgetView.conclusion}}</text>
+              </view>
+              <view class="widget-action-row">
+                <view
+                  wx:for="{{message.widgetView.actions}}"
+                  wx:key="label"
+                  class="widget-action-button widget-action-button-{{item.kind}}"
+                  data-action-type="{{item.actionType}}"
+                  data-message-text="{{item.messageText}}"
+                  data-link="{{item.link}}"
+                  bindtap="handleWidgetActionTap"
+                >
+                  <text class="widget-action-text widget-action-text-{{item.kind}}">{{item.label}}</text>
+                </view>
+              </view>
+            </block>
+
+            <block wx:elif="{{message.widgetView.type === 'calc-card'}}">
+              <text class="widget-card-label">{{message.widgetView.title}}</text>
+              <text class="calc-card-result">{{message.widgetView.resultText}}</text>
+              <text class="calc-card-meta">{{message.widgetView.rateText}}</text>
+              <text class="calc-card-meta">{{message.widgetView.zoneText}}</text>
+              <view class="calc-mini-trend">
+                <view
+                  wx:for="{{message.widgetView.miniTrendGuides}}"
+                  wx:key="*this"
+                  class="calc-mini-guide"
+                  style="bottom: {{item}};"
+                ></view>
+                <view
+                  wx:for="{{message.widgetView.miniTrendSegments}}"
+                  wx:key="index"
+                  class="calc-mini-segment"
+                  style="{{item.style}}"
+                ></view>
+                <view
+                  wx:for="{{message.widgetView.miniTrendPoints}}"
+                  wx:for-item="point"
+                  wx:key="index"
+                  class="calc-mini-point {{point.active ? 'calc-mini-point-active' : ''}}"
+                  style="{{point.style}}"
+                >
+                  <view class="calc-mini-point-core"></view>
+                </view>
+              </view>
+            </block>
+
+            <block wx:elif="{{message.widgetView.type === 'alert-status'}}">
+              <view class="alert-status-card">
+                <view class="alert-status-head">
+                  <text class="widget-card-label">{{message.widgetView.title}}</text>
+                  <text class="alert-status-badge">已开启</text>
+                </view>
+                <text class="alert-status-summary">{{message.widgetView.summary}}</text>
+                <view class="alert-status-row-list">
+                  <view
+                    wx:for="{{message.widgetView.rows}}"
+                    wx:key="label"
+                    class="alert-status-row"
+                  >
+                    <text class="alert-status-row-label">{{item.label}}</text>
+                    <text class="alert-status-row-value">{{item.value}}</text>
+                  </view>
+                </view>
+                <view wx:if="{{message.widgetView.scheduleItems.length}}" class="alert-status-schedule">
+                  <view class="alert-status-schedule-head">
+                    <text class="alert-status-schedule-title">{{message.widgetView.scheduleTitle}}</text>
+                    <text class="alert-status-schedule-helper">{{message.widgetView.scheduleHelper}}</text>
+                  </view>
+                  <view class="alert-status-schedule-list">
+                    <view
+                      wx:for="{{message.widgetView.scheduleItems}}"
+                      wx:key="phase"
+                      class="alert-status-schedule-item"
+                    >
+                      <view class="alert-status-schedule-top">
+                        <view class="alert-status-phase-wrap">
+                          <view class="alert-status-phase-dot" style="background: {{item.dotColor}};"></view>
+                          <text class="alert-status-phase-name">{{item.phase}}</text>
+                        </view>
+                        <text class="alert-status-phase-time">{{item.timing}}</text>
+                      </view>
+                      <view class="alert-status-schedule-bottom">
+                        <text class="alert-status-phase-amount">{{item.amountText}}</text>
+                        <text class="alert-status-phase-reason">{{item.reason}}</text>
+                      </view>
+                    </view>
+                  </view>
+                </view>
+                <text class="alert-status-footnote">{{message.widgetView.footnote}}</text>
+              </view>
+            </block>
+
+            <view wx:if="{{message.widgetView.riskNotice}}" class="widget-risk-box">
+              <text class="widget-risk-label">风险提示</text>
+              <text class="widget-risk-text">{{message.widgetView.riskNotice}}</text>
+            </view>
+          </view>
+
+          <view wx:if="{{message.role === 'assistant' && message.followUpChipsView.length}}" class="follow-up-chip-section">
+            <text class="follow-up-chip-heading">你可能还想问</text>
+            <view class="follow-up-chip-list">
+              <view
+                wx:for="{{message.followUpChipsView}}"
+                wx:for-item="chip"
+                wx:key="value"
+                class="follow-up-chip"
+                data-value="{{chip.value}}"
+                bindtap="handleFollowUpChipTap"
+              >
+                <text class="follow-up-chip-text">{{chip.label}}</text>
+              </view>
+            </view>
+          </view>
+
+          <view
+            wx:if="{{message.role === 'assistant' && message.miniProgramCard}}"
+            class="mini-program-card"
+            data-link="{{message.miniProgramCard.link}}"
+            bindtap="handleMiniProgramCardTap"
+          >
+            <view class="mini-program-card-main">
+              <text class="mini-program-card-title">{{message.miniProgramCard.title}}</text>
+              <text class="mini-program-card-subtitle">{{message.miniProgramCard.subtitle}}</text>
+            </view>
+            <text class="mini-program-card-button">{{message.miniProgramCard.buttonLabel}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="composer-panel glass-card">
+        <view class="composer">
+          <view class="voice-button">
+            <image class="voice-icon" src="/assets/icons/voice-input.svg" mode="aspectFit" />
+          </view>
+          <view class="input-shell">
+            <input
+              class="message-input"
+              type="text"
+              placeholder="{{composerPlaceholder}}"
+              confirm-type="send"
+              value="{{messageInput}}"
+              bindinput="handleInput"
+              bindconfirm="handleSend"
+            />
+          </view>
+          <view
+            class="send-button {{(!messageInput || isStreaming) ? 'send-button-disabled' : ''}}"
+            bindtap="handleSend"
+          >
+            <text class="send-button-text">{{sendLabel}}</text>
+          </view>
+        </view>
+
+        <text class="disclaimer">{{disclaimer}}</text>
+      </view>
+    </view>
+  </view>
+</view>
